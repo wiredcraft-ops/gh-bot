@@ -1,12 +1,12 @@
 {
-  "name": "label-bot",
+  "name": "Jarvis",
   "version": "1.0.0",
-  "description": "A Probot app",
+  "description": "Github bot",
   "author": "Kaleo Cheng <kaleocheng@gmail.com>",
   "license": "ISC",
-  "repository": "https://github.com//label-bot.git",
-  "homepage": "https://github.com//label-bot",
-  "bugs": "https://github.com//label-bot/issues",
+  "repository": "https://github.com/kaleoceng/label-bot.git",
+  "homepage": "https://github.com/kaleocheng/label-bot",
+  "bugs": "https://github.com/kaleocheng/label-bot/issues",
   "keywords": [
     "probot",
     "github",
@@ -20,7 +20,9 @@
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
   },
   "dependencies": {
-    "probot": "^7.2.0"
+    "minimatch": "^3.0.4",
+    "probot": "^7.2.0",
+    "probot-commands": "^1.1.0"
   },
   "devDependencies": {
     "jest": "^24.0.0",

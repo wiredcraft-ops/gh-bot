@@ -1,19 +1,33 @@
+const prSize = require('./bots/pr-size')
+const commands = require('./bots/commands')
+const appcommand = require('probot-commands')
+const releaseNote = require('./bots/release-note')
+
 /**
  * This is the main entrypoint to your Probot app
  * @param {import('probot').Application} app
  */
 module.exports = app => {
-  // Your code here
   app.log('Yay, the app was loaded!')
 
-  app.on('issues.opened', async context => {
-    const issueComment = context.issue({ body: 'Thanks for opening this issue!' })
-    return context.github.issues.createComment(issueComment)
+  // Commands
+  appcommand(app, 'kind', commands.kind)
+
+  // Calculate the PR size
+  app.on([
+    'pull_request.opened',
+    'pull_request.reopened',
+    'pull_request.synchronized',
+    'pull_request.edited'], prSize)
+
+  // releaseNote create release note based on PR and create label to those PRs
+  app.on('release.published', releaseNote)
+
+  // ignore marketplace event
+  app.on('marketplace_purchase', async context => {
+    return
   })
 
-  // For more information on building apps:
-  // https://probot.github.io/docs/
 
-  // To get your app running against GitHub, see:
-  // https://probot.github.io/docs/development/
+
 }
