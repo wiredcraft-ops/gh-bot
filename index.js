@@ -1,7 +1,7 @@
-const prSize = require('./bots/pr-size')
+const pr = require('./bots/pr')
 const commands = require('./bots/commands')
 const appcommand = require('probot-commands')
-const releaseNote = require('./bots/release-note')
+const release = require('./bots/release')
 
 /**
  * This is the main entrypoint to your Probot app
@@ -18,10 +18,11 @@ module.exports = app => {
     'pull_request.opened',
     'pull_request.reopened',
     'pull_request.synchronized',
-    'pull_request.edited'], prSize)
+    'pull_request.edited'], pr.addSizeLable)
 
   // releaseNote create release note based on PR and create label to those PRs
-  app.on('release.published', releaseNote)
+  app.on('release.published', release.releaseNote)
+  app.on('push', release.createRelease)
 
   // ignore marketplace event
   app.on('marketplace_purchase', async context => {

@@ -31,4 +31,22 @@ async function releaseNote(context) {
 
 
 
-module.exports = releaseNote
+async function createRelease(context) {
+    const ref = context.payload.ref
+
+    if (!ref.startsWith('refs/tags/')) {
+        return
+    }
+
+    if (!context.payload.created) {
+        return
+    }
+
+    const tag = ref.split('/')[2]
+    await context.github.repos.createRelease(context.repo({ tag_name: tag, name: tag }))
+}
+
+module.exports = {
+    newRelease: createRelease,
+    releaseNote: releaseNote,
+}

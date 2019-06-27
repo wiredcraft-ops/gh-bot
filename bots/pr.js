@@ -79,7 +79,7 @@ function globMatch(file, globs) {
 }
 
 
-module.exports = async context => {
+async function addSizeLabel(context) {
     const pullRequest = context.payload.pull_request;
     const { owner: { login: owner }, name: repo } = pullRequest.base.repo;
     const { number } = pullRequest;
@@ -118,3 +118,7 @@ module.exports = async context => {
     return await labelutil.addLabel(context, labelToAdd, colors[labelToAdd])
 }
 
+
+module.exports = {
+    addSizeLable: addSizeLabel,
+}
