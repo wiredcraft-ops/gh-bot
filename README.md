@@ -1,6 +1,11 @@
-# label-bot
+# jarvis bot
 
-> A GitHub App built with [Probot](https://github.com/probot/probot) that Github bot
+A GitHub App built with [Probot](https://github.com/probot/probot) that do everything we need.
+
+- Calculate the PR size and add label to it
+- Generate release note when you push tag
+- Customize command
+...
 
 ## Setup
 
