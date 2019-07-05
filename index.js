@@ -17,7 +17,7 @@ module.exports = app => {
     'pull_request.edited'], pr.addSizeLable)
 
   // Create release note based on PR and create label to those PRs
-  app.on('release.published', release.tagPR)
+  app.on('release.published', release.published)
   app.on('push', release.create)
 
   // ignore marketplace event
