@@ -1,5 +1,6 @@
 const axios = require('axios')
 const config = require('./config')
+const minimatch = require("minimatch")
 
 
 function sendMessage(body, targets) {
@@ -24,19 +25,28 @@ function sendMessage(body, targets) {
 
 function getSlackHooks(targets) {
     const hooks = []
+
     const c = config.readConfig()
     if (!('slack' in c) || !('hooks' in c.slack)) {
         return hooks
     }
 
+    const targetKeys = Object.keys(c.slack.hooks)
+    if (targetKeys.length == 0) {
+        return hooks
+    }
+
     for (const target of targets) {
-        if (target in c.slack.hooks) {
-            hooks.push(c.slack.hooks[target])
-        } else {
-            console.log(`no slack hook for ${target}`)
+        for (const targetKey of targetKeys) {
+            if (minimatch(target, targetKey)) {
+                hooks.push(c.slack.hooks[targetKey])
+            }
         }
     }
-    return hooks
+    if (hooks.length == 0) {
+        console.log(`no slack hook for ${target}`)
+    }
+    return [...new Set(hooks)];
 }
 
 
